@@ -4,7 +4,7 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/blocto/solana-go-sdk/common"
+	"github.com/decert-me/solana-go-sdk/common"
 )
 
 func TestNonceAccountDeserialize(t *testing.T) {

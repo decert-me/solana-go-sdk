@@ -1,8 +1,8 @@
 package associated_token_account
 
 import (
-	"github.com/blocto/solana-go-sdk/common"
-	"github.com/blocto/solana-go-sdk/types"
+	"github.com/decert-me/solana-go-sdk/common"
+	"github.com/decert-me/solana-go-sdk/types"
 	"github.com/near/borsh-go"
 )
 
