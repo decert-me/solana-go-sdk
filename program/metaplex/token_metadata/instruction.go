@@ -666,7 +666,6 @@ func VerifyCollection(param VerifyCollectionParam) types.Instruction {
 type VerifySizedCollectionParam struct {
 	Payer                          common.PublicKey //payer
 	Metadata                       common.PublicKey //Metadata account
-	UpdateAuthority                common.PublicKey //Update authority
 	CollectionAuthority            common.PublicKey //Collection Update authority
 	CollectionMint                 common.PublicKey //Mint of the Collection
 	Collection                     common.PublicKey //Metadata Account of the Collection
@@ -694,17 +693,12 @@ func VerifySizedCollection(param VerifySizedCollectionParam) types.Instruction {
 			{
 				PubKey:     param.CollectionAuthority,
 				IsSigner:   true,
-				IsWritable: true,
+				IsWritable: false,
 			},
 			{
 				PubKey:     param.Payer,
 				IsSigner:   true,
 				IsWritable: true,
-			},
-			{
-				PubKey:     param.UpdateAuthority,
-				IsSigner:   false,
-				IsWritable: false,
 			},
 			{
 				PubKey:     param.CollectionMint,
@@ -714,7 +708,7 @@ func VerifySizedCollection(param VerifySizedCollectionParam) types.Instruction {
 			{
 				PubKey:     param.Collection,
 				IsSigner:   false,
-				IsWritable: false,
+				IsWritable: true,
 			},
 			{
 				PubKey:     param.CollectionMasterEditionAccount,
