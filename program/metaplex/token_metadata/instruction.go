@@ -658,3 +658,74 @@ func VerifyCollection(param VerifyCollectionParam) types.Instruction {
 		Data: data,
 	}
 }
+
+type VerifySizedCollectionParam struct {
+	Payer                          common.PublicKey //payer
+	Metadata                       common.PublicKey //Metadata account
+	UpdateAuthority                common.PublicKey //Update authority
+	CollectionAuthority            common.PublicKey //Collection Update authority
+	CollectionMint                 common.PublicKey //Mint of the Collection
+	Collection                     common.PublicKey //Metadata Account of the Collection
+	CollectionMasterEditionAccount common.PublicKey //MasterEdition2 Account of the Collection Token
+	CollectionAuthorityRecord      common.PublicKey // Collection Authority Record
+}
+
+func VerifySizedCollection(param VerifySizedCollectionParam) types.Instruction {
+	data, err := borsh.Serialize(struct {
+		Instruction Instruction
+	}{
+		Instruction: InstructionVerifySizedCollectionItem,
+	})
+	if err != nil {
+		panic(err)
+	}
+	ix := types.Instruction{
+		ProgramID: common.MetaplexTokenMetaProgramID,
+		Accounts: []types.AccountMeta{
+			{
+				PubKey:     param.Metadata,
+				IsSigner:   false,
+				IsWritable: true,
+			},
+			{
+				PubKey:     param.CollectionAuthority,
+				IsSigner:   true,
+				IsWritable: true,
+			},
+			{
+				PubKey:     param.Payer,
+				IsSigner:   true,
+				IsWritable: true,
+			},
+			{
+				PubKey:     param.UpdateAuthority,
+				IsSigner:   false,
+				IsWritable: false,
+			},
+			{
+				PubKey:     param.CollectionMint,
+				IsSigner:   false,
+				IsWritable: false,
+			},
+			{
+				PubKey:     param.Collection,
+				IsSigner:   false,
+				IsWritable: false,
+			},
+			{
+				PubKey:     param.CollectionMasterEditionAccount,
+				IsSigner:   false,
+				IsWritable: false,
+			},
+		},
+		Data: data,
+	}
+	if param.CollectionAuthorityRecord != common.PublicKey{} {
+		ix.Accounts = append(ix.Accounts, types.AccountMeta{
+			PubKey:     param.CollectionAuthorityRecord,
+			IsSigner:   false,
+			IsWritable: false,
+		})
+	}
+	return ix
+}
