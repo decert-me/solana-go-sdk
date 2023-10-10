@@ -66,6 +66,10 @@ const (
 	InstructionCollect
 )
 
+var (
+	EmptyPubKey = common.PublicKey{}
+)
+
 type CreateMetadataAccountParam struct {
 	Metadata                common.PublicKey
 	Mint                    common.PublicKey
@@ -720,7 +724,7 @@ func VerifySizedCollection(param VerifySizedCollectionParam) types.Instruction {
 		},
 		Data: data,
 	}
-	if param.CollectionAuthorityRecord != common.PublicKey{} {
+	if param.CollectionAuthorityRecord != EmptyPubKey {
 		ix.Accounts = append(ix.Accounts, types.AccountMeta{
 			PubKey:     param.CollectionAuthorityRecord,
 			IsSigner:   false,
